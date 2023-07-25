@@ -1,5 +1,6 @@
 global using Microsoft.EntityFrameworkCore;
 global using MyAPINetCore6.Data;
+using MyAPINetCore6.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IHeroRepository, HeroRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
