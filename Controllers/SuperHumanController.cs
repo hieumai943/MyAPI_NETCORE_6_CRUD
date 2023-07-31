@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyAPINetCore6.Models;
 using MyAPINetCore6.Repositories;
 
@@ -35,6 +36,7 @@ namespace MyAPINetCore6.Controllers
             return hero == null ? NotFound() : Ok(hero);
         }
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddNewHero(HeroModel hero)
         {
                 var newHeroId = await _herorepo.AddHeroAsync(hero); // vi addheroasync tra ve id 
@@ -42,6 +44,8 @@ namespace MyAPINetCore6.Controllers
                 return _hero == null ? NotFound() : Ok(_hero);
         }
         [HttpPut("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> UpdateHero(int id, HeroModel hero)
         {
             if (id != hero.Id) return NotFound();
@@ -50,11 +54,15 @@ namespace MyAPINetCore6.Controllers
 
         }
         [HttpDelete("{id}")]
+        [Authorize]
+
         public async Task<IActionResult> DeleteHero(int id)
         {
             await _herorepo.DeleteHeroAsync(id);
             return Ok();
         }
+
+     
 
     }
 }
